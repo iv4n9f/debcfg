@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 <DAVFS_URL> <USERNAME> <PASSWORD> <MOUNT_POINT>"
+    exit 1
+fi
+
+DAVFS_URL="$1"
+USERNAME="$2"
+PASSWORD="$3"
+MOUNT_POINT="$4"
+
+if [ ! -d "$MOUNT_POINT" ]; then
+    echo "Error: Mount point '$MOUNT_POINT' does not exist. Please create it first."
+    exit 1
+fi
+
+if ! command -v mount.davfs > /dev/null; then
+    echo "Installing davfs2..."
+    sudo apt-get update
+    sudo apt-get install davfs2 -y
+fi
+
+ESCAPED_PASSWORD=$(printf %s "$PASSWORD" | sed 's/[\/&]/\\&/g')
+
+CREDENTIALS_FILE="/etc/davfs2/secrets"
+sudo chmod 666 "$CREDENTIALS_FILE"
+sudo echo -e "$DAVFS_URL $USERNAME $ESCAPED_PASSWORD" >> "$CREDENTIALS_FILE"
+sudo chmod 600 "$CREDENTIALS_FILE"
+
+echo "Mounting DAVFS share..."
+sudo mount -t davfs "$DAVFS_URL" "$MOUNT_POINT" -o rw,uid=$(id -u),gid=$(id -g)
+
+sudo echo -e "$DAVFS_URL $MOUNT_POINT davfs _netdev,auto 0 0" | sudo tee -a /etc/fstab > /dev/null
+echo "DAVFS share mounted at $MOUNT_POINT and added to /etc/fstab"

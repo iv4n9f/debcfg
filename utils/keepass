@@ -1,0 +1,5 @@
+#/bin/bash
+
+openssl pkeyutl -decrypt -inkey ~/Credentials/.keys/private_key.pem -in ~/Credentials/kee.enc -out  ~/Credentials/.tmp/kee.pas
+cat ~/Credentials/.tmp/kee.pas | xclip -selection clipboard && rm ~/Credentials/.tmp/kee.pas
+/usr/bin/keepasxc
