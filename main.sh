@@ -92,7 +92,6 @@ sudo chmod +x /usr/bin/mount_dav
 
 # Snaps installation
 
-<<<<<<< HEAD
 # Security
 
 if [[ $password != "password" ]]; then
@@ -107,8 +106,7 @@ if [[ $password != "password" ]]; then
     sudo openssl genpkey -algorithm RSA -out /mnt/key/.keys/private_key.pem
     sudo openssl rsa -pubout -in /mnt/key/.keys/private_key.pem -out /mnt/key/.keys/public_key.pem
     sudo openssl pkeyutl -encrypt -pubin -inkey /mnt/key/.keys/public_key.pem -in /home/$user/Credentials/kee.pas -out /home/$user/Credentials/kee.enc && rm /home/$user/Credentials/kee.pas
-=======
-
+fi
 # Security
 
 if [[ $password != "password" ]]; then
@@ -117,7 +115,6 @@ if [[ $password != "password" ]]; then
     openssl genpkey -algorithm RSA -out /home/$user/Credentials/.keys/private_key.pem
     openssl rsa -pubout -in /home/$user/Credentials/.keys/private_key.pem -out /home/$user/Credentials/.keys/public_key.pem
     openssl pkeyutl -encrypt -pubin -inkey /home/$user/Credentials/.keys/public_key.pem -in /home/$user/Credentials/kee.pas -out /home/$user/Credentials/kee.enc && rm /home/$user/Credentials/kee.pas
->>>>>>> parent of 6e06a33 (0.49)
 else
     echo "You need to set a password"
 fi
