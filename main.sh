@@ -95,21 +95,6 @@ sudo chmod +x /usr/bin/mount_dav
 # Security
 
 if [[ $password != "password" ]]; then
-    sudo chmod 666 /etc/fstab
-    echo "UUID=$usb_key_uid /mnt/key auto defaults,user 0 0" >> /etc/fstab
-    sudo chmod 600 /etc/fstab
-    sudo systemctl daemon-reload
-    sudo mount -a
-    echo "$password" > /home/$user/Credentials/kee.pas
-    mkdir -p /home/$user/Credentials/.tmp  
-    sudo mkdir -p /mnt/key/.keys
-    sudo openssl genpkey -algorithm RSA -out /mnt/key/.keys/private_key.pem
-    sudo openssl rsa -pubout -in /mnt/key/.keys/private_key.pem -out /mnt/key/.keys/public_key.pem
-    sudo openssl pkeyutl -encrypt -pubin -inkey /mnt/key/.keys/public_key.pem -in /home/$user/Credentials/kee.pas -out /home/$user/Credentials/kee.enc && rm /home/$user/Credentials/kee.pas
-fi
-# Security
-
-if [[ $password != "password" ]]; then
     echo "$password" > /home/$user/Credentials/kee.pas
     mkdir -p /home/$user/Credentials/.tmp /home/$user/Credentials/.keys
     openssl genpkey -algorithm RSA -out /home/$user/Credentials/.keys/private_key.pem
